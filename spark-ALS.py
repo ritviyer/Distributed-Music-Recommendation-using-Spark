@@ -6,24 +6,29 @@ from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.recommendation import ALS
 from pyspark.sql.types import IntegerType
 
+from pyspark.ml.feature import StringIndexer
+from pyspark.ml import Pipeline
+
 resultPath = '../results/'
 f = open(resultPath + 'resultLastFM.txt','w')
 
 ss= SparkSession.builder.appName('Music Recommendation').getOrCreate()
 sc = ss._sc
 
-dataPath = '../dataset/hetrec2011-lastfm-2k/'
-data = ss.read.option('header','true').csv(dataPath+'user_artists.csv')
-data = data.withColumn("userID", data["userID"].cast(IntegerType()))
-data = data.withColumn("artistID", data["artistID"].cast(IntegerType()))
-data = data.withColumn("Weight", data["Weight"].cast(IntegerType()))
+dataPath = '../dataset/Million Song/'
+data = ss.read.option('header','true').csv(dataPath+'triplets.csv')
+
+indexers = [StringIndexer(inputCol=column, outputCol=column + '_index').fit(data) for column in ['userID','SongID']]
+pipeline = Pipeline(stages=indexers)
+data = pipeline.fit(data).transform(data)
+data = data.withColumn("Rating", data["Rating"].cast(IntegerType()))
 
 (train, test) = data.randomSplit([0.8, 0.2])
-als = ALS(maxIter=5, regParam=0.01, userCol="userID", itemCol="artistID", ratingCol="Weight", coldStartStrategy="drop")
+als = ALS(maxIter=5, regParam=0.01, userCol="userID_index", itemCol="SongID_index", ratingCol="Rating", coldStartStrategy="drop")
 model = als.fit(train)
 
 predictions = model.transform(test)
-evaluator = RegressionEvaluator(metricName="rmse", labelCol="Weight",predictionCol="prediction")
+evaluator = RegressionEvaluator(metricName="rmse", labelCol="Rating",predictionCol="prediction")
 rmse = evaluator.evaluate(predictions)
 f.write("Root-mean-square error = " + str(rmse) + '\n')
 
