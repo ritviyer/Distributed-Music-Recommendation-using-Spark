@@ -38,9 +38,22 @@ def get_connected_group(node, already_seen, graph):
     return result, already_seen
 
 
+def get_second_degree(graph, userID):
+    nodes = graph[userID]
+    result = set()
+    r = set()
+    for node in nodes:
+      result.update(graph[node])
+      r.update(graph[node])
+    # for node in r:
+    #   result.update(graph[node])
+    return result
+
 components = get_all_connected_groups(graph)
+#components = [get_second_degree(graph,624)]
 
 idx = 0
 for com in components:
     print(idx, len(com))
+    print(com)
     idx+=1
