@@ -1,10 +1,11 @@
 # Distributed-Music-Recommendation-using-Spark
 
 Steps to run code:
+
 Pre-requisites:
-Install Spark
-Install Pyspark
-Download all required dataset files from: <>
+1) Install Spark
+2) Install Pyspark
+3) Download all required dataset files from: <>
 
 
 Run MapReduce-Based CF by:
