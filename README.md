@@ -11,8 +11,7 @@ Run MapReduce-Based CF by:
 1) spark-submit map_reduce.py
 
 Run ALS-Based CF by:
-1) spark-submit map_reduce.py
+1) spark-submit finalALSModel.py
 
 Run Friend-Based CF by:
 1) python friendBasedCF.py
-
