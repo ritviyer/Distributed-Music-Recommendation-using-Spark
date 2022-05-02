@@ -6,7 +6,7 @@ Install Spark
 Install Pyspark
 
 Run Friend-Based CF file by:
-1) python FriendBasedCF.py
+1) python friendBasedCF.py
 
 Run MapReduce-Based CF by:
 1) spark-submit xyz.py
