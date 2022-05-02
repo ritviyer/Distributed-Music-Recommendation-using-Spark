@@ -30,6 +30,14 @@ You can use additional options while submitting the spark job such as --master l
 6. Select a pySpark Kernel once it starts.
 7. Finally, run the Jupyter Notebook.
 
+### hdf5_getters.py
+Extracting each audio attribute from HDF5 file
+
+### msdHDF5toCSV.py
+Converting the files in HDF5 format to CSV format and writing to SongCSV.csv file
+
+### combineMetadataTripletDataset.py
+Joining the data of metadata.csv and triplets.txt files over song_id to obtain consolidated dataset.  
 
 ### cleanlasFMdata.py
 Cleaning the data and converting the tab separated dat file into csv files.
